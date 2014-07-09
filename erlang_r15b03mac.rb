@@ -35,6 +35,7 @@ class ErlangR15b03mac < Formula
   end
 
   # remove the autoreconf if possible
+  depends_on :autoconf
   depends_on :automake
   depends_on :libtool
 
