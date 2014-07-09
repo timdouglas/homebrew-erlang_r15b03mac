@@ -48,7 +48,7 @@ class ErlangR15b03mac < Formula
   option 'no-docs', 'Do not install documentation'
 
   def install
-    ohai "Compilation takes a long time; use `brew install -v erlang` to see progress" unless ARGV.verbose?
+    ohai "Compilation takes a long time; use `brew install -v erlang_r15b03mac` to see progress" unless ARGV.verbose?
 
     if ENV.compiler == :llvm
       # Don't use optimizations. Fixes build on Lion/Xcode 4.2
@@ -56,11 +56,11 @@ class ErlangR15b03mac < Formula
       ENV.append_to_cflags '-O0'
     end
     
-    # Edit config header to increase FD_SETSIZE
-    system "perl -i -pe 's/(define\s+FD_SETSIZE\s+)\d+/\1 10000/' ./erts/config.h.in"
-
     # Do this if building from a checkout to generate configure
     system "./otp_build autoconf" if File.exist? "otp_build"
+    
+    # Edit config header to increase FD_SETSIZE
+    system "perl -i -pe 's/(define\s+FD_SETSIZE\s+)\d+/\1 10000/' ./erts/config.h.in"
 
     args = ["--disable-debug",
             "--prefix=#{prefix}",
