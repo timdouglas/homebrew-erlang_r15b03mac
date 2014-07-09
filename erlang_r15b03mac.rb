@@ -57,13 +57,13 @@ class ErlangR15b03mac < Formula
       ENV.append_to_cflags '-O0'
     end
     
+    # Edit config header to increase FD_SETSIZE
+    system "perl -i -pe 's/(define\s+FD_SETSIZE\s+)\d+/\1 10000/' ./erts/config.h.in"
+    
     # Do this if building from a checkout to generate configure
     system "./otp_build autoconf" if File.exist? "otp_build"
     
-    # Edit config header to increase FD_SETSIZE
-    system "perl -i -pe 's/(define\s+FD_SETSIZE\s+)\d+/\1 10000/' ./erts/config.h.in"
-
-    args = ["--disable-debug",
+        args = ["--disable-debug",
             "--prefix=#{prefix}",
             "--enable-kernel-poll",
             "--enable-threads",
