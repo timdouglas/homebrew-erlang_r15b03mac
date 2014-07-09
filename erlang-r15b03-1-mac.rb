@@ -55,6 +55,9 @@ class Erlang < Formula
       ENV.remove_from_cflags /-O./
       ENV.append_to_cflags '-O0'
     end
+    
+    # Edit config header to increase FD_SETSIZE
+    system "perl -i -pe 's/(define\s+FD_SETSIZE\s+)\d+/\1 10000/' ./erts/config.h.in"
 
     # Do this if building from a checkout to generate configure
     system "./otp_build autoconf" if File.exist? "otp_build"
@@ -81,6 +84,11 @@ class Erlang < Formula
       args << "--enable-halfword-emulator" if build.include? 'halfword' # Does not work with HIPE yet. Added for testing only
     end
 
+    # add additional arguments to CFLAGS for file descriptor increase
+    ENV.append_to_cflags '-DREDEFINE_FD_SETSIZE'
+    ENV.append_to_cflags '-DFD_SETSIZE=15000'
+    ENV.append_to_cflags '-D_DARWIN_UNLIMITED_SELECT'
+    
     system "./configure", *args
     touch 'lib/wx/SKIP' if MacOS.version >= :snow_leopard
     system "make"
