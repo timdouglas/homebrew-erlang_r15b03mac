@@ -1,26 +1,26 @@
 require 'formula'
 
-class ErlangManuals < Formula
+class ErlangR15b03Manuals < Formula
   url 'http://erlang.org/download/otp_doc_man_R15B03-1.tar.gz'
   sha1 'c8674767cd0c1f98946f6a08c7ae318c3f026988'
 end
 
-class ErlangHtmls < Formula
+class ErlangR15b03Htmls < Formula
   url 'http://erlang.org/download/otp_doc_html_R15B03-1.tar.gz'
   sha1 '49d761d8554a83be00e18f681b32b94572f9c050'
 end
 
-class ErlangHeadManuals < Formula
+class ErlangR15b03HeadManuals < Formula
   url 'http://erlang.org/download/otp_doc_man_R15B03-1.tar.gz'
   sha1 'c8674767cd0c1f98946f6a08c7ae318c3f026988'
 end
 
-class ErlangHeadHtmls < Formula
+class ErlangR15b03HeadHtmls < Formula
   url 'http://erlang.org/download/otp_doc_html_R15B03-1.tar.gz'
   sha1 '49d761d8554a83be00e18f681b32b94572f9c050'
 end
 
-class Erlang < Formula
+class ErlangR15b03 < Formula
   homepage 'http://www.erlang.org'
   # Download tarball from GitHub; it is served faster than the official tarball.
   url 'https://github.com/erlang/otp/tarball/OTP_R15B03-1'
@@ -95,10 +95,10 @@ class Erlang < Formula
     system "make install"
 
     unless build.include? 'no-docs'
-      manuals = build.head? ? ErlangHeadManuals : ErlangManuals
+      manuals = build.head? ? ErlangR15b03HeadManuals : ErlangR15b03Manuals
       manuals.new.brew { man.install Dir['man/*'] }
 
-      htmls = build.head? ? ErlangHeadHtmls : ErlangHtmls
+      htmls = build.head? ? ErlangR15b03HeadHtmls : ErlangR15b03Htmls
       htmls.new.brew { doc.install Dir['*'] }
     end
   end
